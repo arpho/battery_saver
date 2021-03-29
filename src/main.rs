@@ -39,7 +39,7 @@ fn main() -> Result<(), battery::Error> {
         let charge = battery.state_of_charge().get::<percent>();
 
 loop{
-println!("matching")
+println!("matching");
 match charge {
     charge if charge < calculate_treshold(treshold,-10.0) => connected =  true, // println!("connected"),
     charge if charge > calculate_treshold(treshold,10.0) => connected = false, //println!("disconnected"),
@@ -57,7 +57,7 @@ else
 
 
 
-thread::sleep(ten_millis);
+thread::sleep(five_minutes);
 
     }
 }
