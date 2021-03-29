@@ -23,7 +23,7 @@ fn main() -> Result<(), battery::Error> {
     let args = Cli::from_args();
     println!("treshold: {:?}",args.treshold);
     let manager = battery::Manager::new()?;
-    let treshold = 50.0;
+    let treshold = args.treshold;
     let mut  connected = true;
 
 
