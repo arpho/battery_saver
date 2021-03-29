@@ -8,7 +8,6 @@ struct Cli {
     /// The treshold
     treshold: f32,
 }
-
 fn calculate_treshold(reference:f32,deviation:f32)-> f32{
     return reference+ reference*deviation/100.0
 }
@@ -20,6 +19,7 @@ fn print_treshold(treshold:f32) {
 }
 use battery::units::ratio::percent;
 fn main() -> Result<(), battery::Error> {
+    let five_minutes = time::Duration::from_millis(300000);
     let args = Cli::from_args();
     println!("treshold: {:?}",args.treshold);
     let manager = battery::Manager::new()?;
@@ -38,7 +38,7 @@ fn main() -> Result<(), battery::Error> {
         println!("percentuale di carica: {:.2?}",charge);
         let charge = battery.state_of_charge().get::<percent>();
 
-
+loop{
 
 match charge {
     charge if charge < calculate_treshold(treshold,-10.0) => connected =  true, // println!("connected"),
@@ -60,6 +60,7 @@ else
 
 
     }
+}
 
     Ok(())
 }
