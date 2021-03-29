@@ -3,6 +3,13 @@
 //fn print_type_of<T>(_: &T) {
 //    println!("{}", std::any::type_name::<T>())
 //}
+
+struct Cli {
+    /// The treshold
+    treshold: f32,
+    /// The path to the file to read
+}
+
 fn calculate_treshold(reference:f32,deviation:f32)-> f32{
     return reference+ reference*deviation/100.0
 }
