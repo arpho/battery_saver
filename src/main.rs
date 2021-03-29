@@ -1,13 +1,12 @@
 
-
+use structopt::StructOpt;
 //fn print_type_of<T>(_: &T) {
 //    println!("{}", std::any::type_name::<T>())
 //}
-
+#[derive(StructOpt)]
 struct Cli {
     /// The treshold
     treshold: f32,
-    /// The path to the file to read
 }
 
 fn calculate_treshold(reference:f32,deviation:f32)-> f32{
@@ -21,6 +20,8 @@ fn print_treshold(treshold:f32) {
 }
 use battery::units::ratio::percent;
 fn main() -> Result<(), battery::Error> {
+    let args = Cli::from_args();
+    println!("treshold: {:?}",args.treshold);
     let manager = battery::Manager::new()?;
     let treshold = 50.0;
     let mut  connected = true;
