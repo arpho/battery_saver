@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 battery = "0.7.8"
 uom = "0.31.0"
+io_bluetooth = "0.1"
