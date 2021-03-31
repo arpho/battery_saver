@@ -29,7 +29,7 @@ fn main() -> Result<(), battery::Error> {
 loop{
     for (idx, maybe_battery) in manager.batteries()?.enumerate() {
         let battery = maybe_battery?;
-        let  charge = battery.state_of_charge()*100.0;
+        //let  charge = battery.state_of_charge()*100.0;
         println!("Battery #{}:", idx);
         println!("Vendor: {:?}", battery.vendor());
         println!("Model: {:?}", battery.model());
@@ -64,5 +64,5 @@ loop{
     }
 }
 
-    Ok(())
+    // Ok(())
 }
