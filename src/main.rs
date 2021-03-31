@@ -26,38 +26,40 @@ fn main() -> Result<(), battery::Error> {
     let treshold = args.treshold;
     let mut  connected = true;
 
-
+loop{
     for (idx, maybe_battery) in manager.batteries()?.enumerate() {
         let battery = maybe_battery?;
-        let charge = battery.state_of_charge()*100.0;
+        let  charge = battery.state_of_charge()*100.0;
         println!("Battery #{}:", idx);
         println!("Vendor: {:?}", battery.vendor());
         println!("Model: {:?}", battery.model());
         println!("State: {:?}", battery.state());
         println!("Time to full charge: {:?}", battery.time_to_full());
-        println!("percentuale di carica: {:.2?}",charge);
         let charge = battery.state_of_charge().get::<percent>();
 
-loop{
-println!("matching");
-match charge {
-    charge if charge < calculate_treshold(treshold,-10.0) => connected =  true, // println!("connected"),
-    charge if charge > calculate_treshold(treshold,10.0) => connected = false, //println!("disconnected"),
-    _=>  print_treshold(treshold), // se compreso alimentazione connessa
-}
-if connected
-{
-    println!("connected");
-}
-else
-{
-    println!("disconnected");
-}
+
+    //charge = battery.state_of_charge()*100.0;
+    println!("percentuale di carica: {:.2?}",charge);
+    println!("matching");
+    print_treshold(treshold);
+    match charge {
+        charge if charge < calculate_treshold(treshold,-10.0) => connected =  true, // println!("connected"),
+        charge if charge > calculate_treshold(treshold,10.0) => connected = false, //println!("disconnected"),
+        _=>  print_treshold(treshold), // se compreso alimentazione connessa
+    }
+    if connected
+    {
+        println!("connected");
+    }
+    else
+    {
+        println!("disconnected");
+    }
 
 
 
 
-thread::sleep(five_minutes);
+    thread::sleep(five_minutes);
 
     }
 }
