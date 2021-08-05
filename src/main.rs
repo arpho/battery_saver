@@ -40,7 +40,7 @@ loop{
 
     //charge = battery.state_of_charge()*100.0;
     println!("percentuale di carica: {:.2?}",charge);
-    println!("matching");
+
     print_treshold(treshold);
     match charge {
         charge if charge < calculate_treshold(treshold,-10.0) => connected =  true, // println!("connected"),
