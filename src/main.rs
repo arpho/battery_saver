@@ -1,8 +1,8 @@
 use std::{thread, time};
 use structopt::StructOpt;
-//fn print_type_of<T>(_: &T) {
-//    println!("{}", std::any::type_name::<T>())
-//}
+use std::fs::File;
+use std::io::BufReader;
+use rodio::Source;
 #[derive(StructOpt)]
 struct Cli {
     /// The treshold
@@ -12,12 +12,37 @@ fn calculate_treshold(reference:f32,deviation:f32)-> f32{
     return reference+ reference*deviation/100.0
 }
 
+
+
 fn print_treshold(treshold:f32) {
 
     println!("soglia inferiore: {:?}",calculate_treshold(treshold,-10.0));
     println!("soglia superiore: {:?}",calculate_treshold(treshold,10.0));
 }
 use battery::units::ratio::percent;
+
+fn play_sound(clip:&str){
+    let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
+    let file = File::open(clip).unwrap();
+    let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
+    stream_handle.play_raw(source.convert_samples()).unwrap();
+
+    // The sound plays in a separate audio thread,
+    // so we need to keep the main thread alive while it's playing.
+    // Press ctrl + C to stop the process once you're done.
+
+}
+
+fn change_status(status: bool){
+    if status{
+        play_sound("mooh.ogg");
+    }
+    else{
+        play_sound("Unlock.ogg");
+    }
+}
+
+
 fn main() -> Result<(), battery::Error> {
     let five_minutes = time::Duration::from_millis(300000);
     let args = Cli::from_args();
@@ -25,6 +50,14 @@ fn main() -> Result<(), battery::Error> {
     let manager = battery::Manager::new()?;
     let treshold = args.treshold;
     let mut  connected = true;
+    let mut old_status = connected;
+
+    fn set_status(new_status: bool){
+        if new_status != connected{
+            change_status(new_status);
+        }
+        connected = new_status;
+    }
 
 loop{
     for (idx, maybe_battery) in manager.batteries()?.enumerate() {
@@ -47,6 +80,7 @@ loop{
         charge if charge > calculate_treshold(treshold,10.0) => connected = false, //println!("disconnected"),
         _=>  print_treshold(treshold), // se compreso alimentazione connessa
     }
+    set_status(connected);
     if connected
     {
         println!("connected");
