@@ -31,6 +31,7 @@ fn play_sound(clip:&str){
     // The sound plays in a separate audio thread,
     // so we need to keep the main thread alive while it's playing.
     // Press ctrl + C to stop the process once you're done.
+    loop{}
 
 }
 
