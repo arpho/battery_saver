@@ -62,6 +62,7 @@ loop{
         let file = File::open("mooh.ogg").unwrap();
         let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
         stream_handle.play_raw(source.convert_samples()).unwrap();
+        std::thread::sleep(std::time::Duration::from_secs(5));
 
     }
     else
@@ -72,6 +73,8 @@ loop{
         let file = File::open("carica.ogg").unwrap();
         let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
         stream_handle.play_raw(source.convert_samples()).unwrap();
+        std::thread::sleep(std::time::Duration::from_secs(5));
+
 
     }
     thread::sleep(five_minutes);
