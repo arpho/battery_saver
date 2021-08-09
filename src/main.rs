@@ -21,19 +21,6 @@ fn print_treshold(treshold:f32) {
 }
 use battery::units::ratio::percent;
 
-fn play_sound(clip:&str){
-    println!("playing:{:?}",clip);
-    let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
-    let file = File::open(clip).unwrap();
-    let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
-    stream_handle.play_raw(source.convert_samples()).unwrap();
-
-    // The sound plays in a separate audio thread,
-    // so we need to keep the main thread alive while it's playing.
-    // Press ctrl + C to stop the process once you're done.
-    loop{}
-
-}
 
 
 
@@ -70,12 +57,22 @@ loop{
     if connected
     {
         println!("connected");
-        play_sound("mooh.ogg");
+
+        let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
+        let file = File::open("mooh.ogg").unwrap();
+        let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
+        stream_handle.play_raw(source.convert_samples()).unwrap();
+
     }
     else
     {
         println!("disconnected");
-        play_sound("Unlock.ogg")
+
+        let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
+        let file = File::open("carica.ogg").unwrap();
+        let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
+        stream_handle.play_raw(source.convert_samples()).unwrap();
+
     }
     thread::sleep(five_minutes);
 
