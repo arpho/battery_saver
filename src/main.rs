@@ -22,6 +22,7 @@ fn print_treshold(treshold:f32) {
 use battery::units::ratio::percent;
 
 fn play_sound(clip:&str){
+    println!("playing:{:?}",clip);
     let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
     let file = File::open(clip).unwrap();
     let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
@@ -33,14 +34,7 @@ fn play_sound(clip:&str){
 
 }
 
-fn change_status(status: bool){
-    if status{
-        play_sound("mooh.ogg");
-    }
-    else{
-        play_sound("Unlock.ogg");
-    }
-}
+
 
 
 fn main() -> Result<(), battery::Error> {
@@ -50,14 +44,6 @@ fn main() -> Result<(), battery::Error> {
     let manager = battery::Manager::new()?;
     let treshold = args.treshold;
     let mut  connected = true;
-    let mut old_status = connected;
-
-    fn set_status(new_status: bool){
-        if new_status != connected{
-            change_status(new_status);
-        }
-        connected = new_status;
-    }
 
 loop{
     for (idx, maybe_battery) in manager.batteries()?.enumerate() {
@@ -80,23 +66,18 @@ loop{
         charge if charge > calculate_treshold(treshold,10.0) => connected = false, //println!("disconnected"),
         _=>  print_treshold(treshold), // se compreso alimentazione connessa
     }
-    set_status(connected);
     if connected
     {
         println!("connected");
+        play_sound("mooh.ogg");
     }
     else
     {
         println!("disconnected");
+        play_sound("Unlock.ogg")
     }
-
-
-
-
     thread::sleep(five_minutes);
 
-    }
-}
-
-    // Ok(())
-}
+                                                                  }
+} // end loop
+} // end main
