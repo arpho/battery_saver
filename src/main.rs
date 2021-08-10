@@ -26,7 +26,7 @@ use battery::units::ratio::percent;
 
 
 fn main() -> Result<(), battery::Error> {
-    let ten_minutes = time::Duration::from_millis(600000);
+    let five_minutes = time::Duration::from_millis(300000);
     let args = Cli::from_args();
     println!("treshold: {:?}",args.treshold);
     let manager = battery::Manager::new()?;
@@ -77,7 +77,7 @@ loop{
 
 
     }
-    thread::sleep(ten_minutes);
+    thread::sleep(five_minutes);
 
                                                                   }
 } // end loop
