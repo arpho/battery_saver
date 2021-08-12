@@ -56,8 +56,7 @@ loop{
     }
     if connected
     {
-        if battery.state()== battery::State::Charging{println!("not sound")}
-        else{
+        if battery.state()!= battery::State::Charging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
         let file = File::open("mooh.ogg").unwrap();
@@ -69,10 +68,8 @@ loop{
     }
     else
     {
-    
-        if battery.state()==battery::State::Discharging{
-            println!("discharging");
-        }else{
+
+        if battery.state()!=battery::State::Discharging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
         let file = File::open("carica.ogg").unwrap();
