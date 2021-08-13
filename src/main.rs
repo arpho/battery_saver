@@ -56,6 +56,7 @@ loop{
     }
     if connected
     {
+        println!("Connesso");
         if battery.state()!= battery::State::Charging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
@@ -68,7 +69,7 @@ loop{
     }
     else
     {
-
+        println!("disconnesso");
         if battery.state()!=battery::State::Discharging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
