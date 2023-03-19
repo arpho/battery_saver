@@ -60,7 +60,7 @@ loop{
         if battery.state()!= battery::State::Charging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
-        let file = File::open("mooh.ogg").unwrap();
+        let file = File::open("low-battery.ogg").unwrap();
         let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
         stream_handle.play_raw(source.convert_samples()).unwrap();
         std::thread::sleep(std::time::Duration::from_secs(5));
@@ -73,7 +73,7 @@ loop{
         if battery.state()!=battery::State::Discharging{
 
         let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
-        let file = File::open("carica.ogg").unwrap();
+        let file = File::open("charged.ogg").unwrap();
         let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
         stream_handle.play_raw(source.convert_samples()).unwrap();
         std::thread::sleep(std::time::Duration::from_secs(5));
